@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+        <title>This is my example homepage.</title>
+    </head>
+    <body>
+        <p>
+            Viz1: Relationship between Congressional District and Mean square Footage. 
+            Viz2: Relationship between Agency Name and Mean Square Footage.
+        </p>
+        <div id="myviz">
+        </div>
+    </body>
+    <script>
+        mySpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/simran-malawat/simranmalawat.github.io/main/building_inventory.csv"
+  },
+  "hconcat": [
+    {
+      "mark": {
+        "type": "bar",
+        "fill": "lightblue",
+        "width": 14,
+        "cursor": "pointer",
+        "stroke": "black",
+        "tooltip": true
+      },
+      "params": [
+        {"name": "highlight", "select": {"type": "point", "on": "click"}},
+        {"name": "select", "select": "point"}
+      ],
+      "encoding": {
+        "x": {"field": "Congress Dist", "type": "quantitative", "bin": true},
+        "y": {
+          "aggregate": "mean",
+          "field": "Square Footage",
+          "type": "quantitative",
+          "scale": {"type": "log"}
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "fill": "peachpuff",
+        "stroke": "black",
+        "cursor": "pointer",
+        "tooltip": true
+      },
+      "params": [
+        {"name": "highlight", "select": {"type": "point", "on": "mouseover"}}
+      ],
+      "encoding": {
+        "x": {"field": "Agency Name", "type": "ordinal"},
+        "y": {
+          "aggregate": "mean",
+          "field": "Square Footage",
+          "type": "quantitative",
+          "scale": {"type": "log"}
+        }
+      }
+    }
+  ]
+};
+        vegaEmbed('#myviz', mySpec);
+    </script>
+</html>
